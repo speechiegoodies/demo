@@ -1,6 +1,21 @@
 <script setup lang="ts">
+import { onMounted, ref, provide } from "vue";
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import { FetchData, type Entry } from "./helpers/GoogleSheets";
+import { entriesKey } from "@/providers";
+
+const entries = ref<Entry[] | null>(null);
+provide(entriesKey, entries);
+
+onMounted(async () => {
+	try {
+		const data = await FetchData();
+		entries.value = data;
+	} catch (error) {
+		// TODO: handle errors
+		console.error("Failed to receive data from spreadsheet", error);
+	}
+});
 </script>
 
 <template>
@@ -14,11 +29,8 @@ import HelloWorld from "./components/HelloWorld.vue";
 		/>
 
 		<div class="wrapper">
-			<HelloWorld />
-
 			<nav>
 				<RouterLink to="/">Home</RouterLink>
-				<RouterLink to="/about">About</RouterLink>
 			</nav>
 		</div>
 	</header>

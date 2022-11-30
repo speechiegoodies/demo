@@ -37,7 +37,7 @@ const API_KEY = "AIzaSyAZMP57la0KaBNN1YL7W2E2afx0vmmth-I";
 // 	}
 // }
 
-class Entry {
+export class Entry {
 	constructor(
 		public type: string,
 		public title: string,
@@ -50,6 +50,10 @@ class Entry {
 	) {}
 }
 
+/**
+ * Fetch speechiegoodies data from Google Sheets
+ * @throws if request fails
+ */
 export async function FetchData() {
 	const range = "A:H";
 	const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${range}`;
